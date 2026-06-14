@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getFields, saveFields, DEFAULT_FIELDS } from "../services/firestoreService";
 
 const SECTIONS = [
+  { key: "quickTags", label: "Situaciones rápidas (botones del formulario)" },
   { key: "types", label: "Tipos de retroalimentación" },
   { key: "urgencies", label: "Urgencias" },
   { key: "areas", label: "Áreas" },
@@ -9,7 +10,7 @@ const SECTIONS = [
 
 export default function FieldsSettings() {
   const [fields, setFields] = useState(DEFAULT_FIELDS);
-  const [newValues, setNewValues] = useState({ types: "", urgencies: "", areas: "" });
+  const [newValues, setNewValues] = useState({ quickTags: "", types: "", urgencies: "", areas: "" });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 

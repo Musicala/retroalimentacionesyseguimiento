@@ -28,6 +28,15 @@ export const DEFAULT_FIELDS = {
   ],
   urgencies: ["Baja", "Media", "Alta", "Crítica"],
   areas: ["Docencia", "Administración", "Dirección", "Producción", "Otra"],
+  quickTags: [
+    "Llegó tarde",
+    "No alistó material",
+    "Salió del salón",
+    "Mala actitud",
+    "Incumplió un acuerdo",
+    "Buen desempeño",
+    "Falló en comunicación",
+  ],
 };
 
 export const DEFAULT_SETTINGS = {

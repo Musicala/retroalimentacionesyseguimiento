@@ -67,6 +67,7 @@ export default function AdminDashboard() {
         const haystack = [
           e.personName, e.title, e.description, e.context, e.area,
           e.type, e.createdByName, e.createdByEmail, e.adminNotes,
+          (e.tags || []).join(" "),
         ].join(" ").toLowerCase();
         if (!haystack.includes(text)) return false;
       }

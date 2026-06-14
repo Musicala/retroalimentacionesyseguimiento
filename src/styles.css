@@ -565,6 +565,57 @@ textarea { resize: vertical; }
 }
 .chip-remove:hover { background: var(--danger); color: white; }
 
+/* ---------- Situaciones rápidas (tags) ---------- */
+
+.tag-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.2rem;
+}
+
+.tag-toggle {
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text, #333);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.tag-toggle:hover { border-color: var(--primary); }
+.tag-toggle.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.details-toggle {
+  align-self: flex-start;
+  padding-left: 0;
+  font-weight: 700;
+}
+
+.details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px dashed var(--border);
+  padding-top: 1rem;
+}
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+.tag-pill {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 /* ---------- Spinner ---------- */
 
 .spinner {

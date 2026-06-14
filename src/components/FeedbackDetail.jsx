@@ -71,7 +71,18 @@ export default function FeedbackDetail({ entry, onBack, onChanged }) {
           />
         </div>
 
-        <DetailBlock label="Descripción" value={entry.description} />
+        {entry.tags && entry.tags.length > 0 && (
+          <div className="detail-block">
+            <span className="field-label">Situaciones</span>
+            <div className="tag-list">
+              {entry.tags.map((t) => (
+                <span className="tag-pill" key={t}>{t}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <DetailBlock label="Nota" value={entry.description} />
         <DetailBlock label="Contexto" value={entry.context} />
         <DetailBlock label="Evidencia" value={entry.evidence} />
         <DetailBlock label="Acción sugerida" value={entry.suggestedAction} />
