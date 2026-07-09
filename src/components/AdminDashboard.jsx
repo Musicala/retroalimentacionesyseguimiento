@@ -3,6 +3,7 @@ import {
   getFeedbackEntries,
   getPeople,
   getFields,
+  updateFeedbackEntry,
   DEFAULT_FIELDS,
   STATUSES,
 } from "../services/firestoreService";
@@ -28,6 +29,8 @@ export default function AdminDashboard() {
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [savingId, setSavingId] = useState("");
+  const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
   const load = async () => {
@@ -51,6 +54,27 @@ export default function AdminDashboard() {
   }, []);
 
   const setFilter = (key, value) => setFilters((f) => ({ ...f, [key]: value }));
+
+  const updateEntryStatus = async (id, status) => {
+    setSavingId(id);
+    setNotice("");
+    setError("");
+    try {
+      await updateFeedbackEntry(id, { status });
+      setEntries((current) =>
+        current.map((entry) =>
+          entry.id === id ? { ...entry, status } : entry
+        )
+      );
+      setNotice("Estado actualizado.");
+      await load();
+    } catch (err) {
+      console.error(err);
+      setError("No se pudo actualizar el estado.");
+    } finally {
+      setSavingId("");
+    }
+  };
 
   const filtered = useMemo(() => {
     return entries.filter((e) => {
@@ -169,11 +193,17 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {notice && <p className="success-text">{notice}</p>}
       {error && <p className="error-text">{error}</p>}
       {loading ? (
         <div className="screen-center"><div className="spinner" /></div>
       ) : (
-        <FeedbackList entries={filtered} onSelect={setSelected} />
+        <FeedbackList
+          entries={filtered}
+          savingId={savingId}
+          onSelect={setSelected}
+          onStatusChange={updateEntryStatus}
+        />
       )}
     </div>
   );

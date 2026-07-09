@@ -1,11 +1,14 @@
-import { formatDate, statusLabel } from "../services/firestoreService";
+import { formatDate, STATUSES } from "../services/firestoreService";
 
 const urgencyClass = (u) =>
-  ({ baja: "badge-low", media: "badge-mid", alta: "badge-high", crítica: "badge-critical" }[
-    (u || "").toLowerCase()
+  ({ baja: "badge-low", media: "badge-mid", alta: "badge-high", critica: "badge-critical" }[
+    (u || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   ] || "");
 
-export default function FeedbackList({ entries, onSelect }) {
+const summaryText = (entry) =>
+  entry.description || entry.context || entry.suggestedAction || "Sin observaciones registradas.";
+
+export default function FeedbackList({ entries, savingId, onSelect, onStatusChange }) {
   if (entries.length === 0) {
     return (
       <div className="card empty-state">
@@ -22,6 +25,7 @@ export default function FeedbackList({ entries, onSelect }) {
             <th>Fecha</th>
             <th>Persona</th>
             <th>Título</th>
+            <th>Observaciones</th>
             <th>Tipo</th>
             <th>Urgencia</th>
             <th>Estado</th>
@@ -29,19 +33,39 @@ export default function FeedbackList({ entries, onSelect }) {
           </tr>
         </thead>
         <tbody>
-          {entries.map((e) => (
-            <tr key={e.id} onClick={() => onSelect(e.id)} className="clickable-row">
-              <td data-label="Fecha">{formatDate(e.createdAt)}</td>
-              <td data-label="Persona"><strong>{e.personName}</strong></td>
-              <td data-label="Título">{e.title}</td>
-              <td data-label="Tipo">{e.type}</td>
+          {entries.map((entry) => (
+            <tr key={entry.id} onClick={() => onSelect(entry.id)} className="clickable-row">
+              <td data-label="Fecha">{formatDate(entry.createdAt)}</td>
+              <td data-label="Persona"><strong>{entry.personName}</strong></td>
+              <td data-label="Título">{entry.title}</td>
+              <td data-label="Observaciones" className="observations-cell">
+                {summaryText(entry)}
+              </td>
+              <td data-label="Tipo">{entry.type}</td>
               <td data-label="Urgencia">
-                <span className={`badge ${urgencyClass(e.urgency)}`}>{e.urgency}</span>
+                <span className={`badge ${urgencyClass(entry.urgency)}`}>{entry.urgency}</span>
               </td>
               <td data-label="Estado">
-                <span className={`badge status-${e.status}`}>{statusLabel(e.status)}</span>
+                <select
+                  className={`status-select status-${entry.status}`}
+                  value={entry.status}
+                  disabled={savingId === entry.id}
+                  aria-label={`Estado de ${entry.personName}`}
+                  title={savingId === entry.id ? "Guardando..." : "Cambiar estado"}
+                  onClick={(event) => event.stopPropagation()}
+                  onChange={(event) => {
+                    event.stopPropagation();
+                    onStatusChange(entry.id, event.target.value);
+                  }}
+                >
+                  {STATUSES.map((status) => (
+                    <option key={status.value} value={status.value}>
+                      {status.label}
+                    </option>
+                  ))}
+                </select>
               </td>
-              <td data-label="Enviado por">{e.createdByName || e.createdByEmail}</td>
+              <td data-label="Enviado por">{entry.createdByName || entry.createdByEmail}</td>
             </tr>
           ))}
         </tbody>
