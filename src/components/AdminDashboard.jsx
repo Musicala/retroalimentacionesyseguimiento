@@ -8,6 +8,7 @@ import {
   STATUSES,
 } from "../services/firestoreService";
 import { exportToCSV } from "../utils/csvExport";
+import { exportAIReport } from "../utils/aiReportExport";
 import FeedbackList from "./FeedbackList";
 import FeedbackDetail from "./FeedbackDetail";
 
@@ -186,6 +187,14 @@ export default function AdminDashboard() {
           </button>
           <button className="btn btn-secondary" onClick={() => exportToCSV(filtered)}>
             Exportar CSV ({filtered.length})
+          </button>
+          <button
+            className="btn btn-ai-report"
+            onClick={() => exportAIReport(filtered)}
+            disabled={!filtered.length}
+            title="Descarga un informe con prompt listo para analizar los registros filtrados"
+          >
+            Descargar informe para IA ({filtered.length})
           </button>
           <button className="btn btn-secondary" onClick={load}>
             Actualizar

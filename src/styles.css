@@ -256,6 +256,13 @@ p { margin: 0.4rem 0; }
 }
 .btn-secondary:hover:not(:disabled) { background: #ddd8f7; }
 
+.btn-ai-report {
+  background: #e5f7f0;
+  color: #146b52;
+  border: 1px solid #b8e5d5;
+}
+.btn-ai-report:hover:not(:disabled) { background: #d3f0e5; }
+
 .btn-ghost {
   background: transparent;
   color: var(--muted);
