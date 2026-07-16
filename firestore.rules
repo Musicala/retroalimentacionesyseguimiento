@@ -72,7 +72,8 @@ service cloud.firestore {
         && request.auth.token.email_verified == true
         && request.auth.token.email.lower() in [
           'alekcaballeromusic@gmail.com',
-          'catalina.medina.leal@gmail.com'
+          'catalina.medina.leal@gmail.com',
+          'adminmusicala@gmail.com'
         ];
     }
 
@@ -101,7 +102,8 @@ service cloud.firestore {
     function fbIsAdmin() {
       return fbSignedIn() && fbEmail() in [
         'alekcaballeromusic@gmail.com',
-        'catalina.medina.leal@gmail.com'
+        'catalina.medina.leal@gmail.com',
+        'adminmusicala@gmail.com'
       ];
     }
 

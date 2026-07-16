@@ -22,6 +22,7 @@ export const db = getFirestore(app);
 export const ADMIN_EMAILS = [
   "alekcaballeromusic@gmail.com",
   "catalina.medina.leal@gmail.com",
+  "adminmusicala@gmail.com",
 ];
 
 export const isAdminEmail = (email) =>
